@@ -232,11 +232,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <a href="register.php">Criar conta</a>
             </div>
 
-            <div class="info-login">
-                <p><strong>Dados de teste:</strong></p>
-                <p>Email: admin@ecoalert.com</p>
-                <p>Senha: admin123</p>
-            </div>
+
         </form>
     </div>
 </body>
