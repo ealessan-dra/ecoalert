@@ -60,13 +60,6 @@ Siga o passo a passo abaixo para rodar o EcoAlert:
 
 ---
 
-## 🔐 Credenciais de Teste
-
-Para acessar a área administrativa após a instalação do banco de dados, utilize as seguintes credenciais configuradas por padrão:
-
-* **Email:** `admin@ecoalert.com`
-* **Senha:** `admin123`
-
 *Para o acesso civil, basta utilizar a página de Registro (`register.php`) e criar sua própria conta.*
 
 ---
