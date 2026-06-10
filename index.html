@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoAlert | Denúncias Ambientais</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <a class="logo" href="index.html">EcoAlert</a>
+
+    <nav class="menu" aria-label="Menu principal">
+      <a href="index.html">Início</a>
+      <a href="#denuncia">Fazer denúncia</a>
+      <a href="acompanhar.html">Acompanhar denúncia</a>
+      <a href="orientacoes.html">Orientações</a>
+      <a href="contato.html">Contato</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-conteudo">
+      <p class="etiqueta">Sistema de denúncias ambientais</p>
+      <h1>EcoAlert</h1>
+      <p>
+        Registre ocorrências ambientais, classifique o tipo de problema e marque no mapa
+        o local exato onde o crime aconteceu.
+      </p>
+      <a class="botao botao-principal" href="#denuncia">Registrar denúncia</a>
+    </div>
+  </section>
+
+  <main>
+    <section class="secao informativo">
+      <div>
+        <h2>Cuidar do meio ambiente e proteger a vida</h2>
+        <p>
+          O meio ambiente está presente em tudo: na água que bebemos, no ar que respiramos,
+          nos alimentos que consumimos e na qualidade de vida das cidades. Quando ocorre
+          desmatamento, queimada, poluição, descarte irregular de lixo ou qualquer outro
+          dano ambiental, toda a comunidade é afetada.
+        </p>
+        <p>
+          Denunciar é uma atitude de cidadania. Com informações claras, categoria correta
+          e localização precisa, os órgãos responsáveis podem agir com mais rapidez para
+          investigar, fiscalizar e reduzir os impactos ao meio ambiente.
+        </p>
+      </div>
+
+      <aside class="painel">
+        <h3>Páginas do sistema</h3>
+        <a href="acompanhar.html">Acompanhar denúncias</a>
+        <a href="orientacoes.html">Orientações ao denunciante</a>
+        <a href="contato.html">Contato e suporte</a>
+      </aside>
+    </section>
+
+    <section class="secao" id="denuncia">
+      <div class="titulo-secao">
+        <p class="etiqueta">Formulário</p>
+        <h2>Registrar nova denúncia</h2>
+        <p>Preencha os dados, escolha a categoria e clique no mapa para marcar o local.</p>
+      </div>
+
+      <div class="area-denuncia">
+        <form class="formulario" id="formDenuncia" action="salvar_denuncia.php" method="POST">
+          <label for="nome">Nome do denunciante</label>
+          <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required>
+
+          <label for="email">E-mail para contato</label>
+          <input type="email" id="email" name="email" placeholder="exemplo@email.com" required>
+
+          <label for="categoria">Categoria da denúncia</label>
+          <select id="categoria" name="categoria" required>
+            <option value="">Selecione uma categoria</option>
+            <option value="Desmatamento">Desmatamento</option>
+            <option value="Queimada">Queimada</option>
+            <option value="Poluição da água">Poluição da água</option>
+            <option value="Descarte irregular de lixo">Descarte irregular de lixo</option>
+            <option value="Maus-tratos a animais">Maus-tratos a animais</option>
+            <option value="Ocupação irregular">Ocupação irregular</option>
+          </select>
+
+          <div class="descricao-categoria" id="descricaoCategoria">
+            Selecione uma categoria para ver a explicação.
+          </div>
+
+          <label for="descricao">Descrição do ocorrido</label>
+          <textarea id="descricao" name="descricao" rows="5" placeholder="Explique o que aconteceu, quando ocorreu e quais sinais foram observados." required></textarea>
+
+          <label for="endereco">Referência do local</label>
+          <input type="text" id="endereco" name="endereco" placeholder="Rua, bairro, ponto de referência ou cidade" required>
+
+          <div class="coordenadas">
+            <div>
+              <label for="latitude">Latitude</label>
+              <input type="text" id="latitude" name="latitude" readonly required>
+            </div>
+            <div>
+              <label for="longitude">Longitude</label>
+              <input type="text" id="longitude" name="longitude" readonly required>
+            </div>
+          </div>
+
+          <button class="botao botao-principal" type="submit">Enviar denúncia</button>
+        </form>
+
+        <div class="mapa-container">
+          <div id="mapa"></div>
+          <p class="mapa-ajuda">Clique no mapa para selecionar o local exato da ocorrência.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 EcoAlert - Sistema de Denúncias Ambientais</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

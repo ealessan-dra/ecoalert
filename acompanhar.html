@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoAlert | Acompanhar Denúncias</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <a class="logo" href="index.html">EcoAlert</a>
+
+    <nav class="menu" aria-label="Menu principal">
+      <a href="index.html">Início</a>
+      <a href="index.html#denuncia">Fazer denúncia</a>
+      <a href="acompanhar.html">Acompanhar denúncia</a>
+      <a href="orientacoes.html">Orientações</a>
+      <a href="contato.html">Contato</a>
+    </nav>
+  </header>
+
+  <section class="pagina-hero">
+    <p class="etiqueta">Acompanhamento</p>
+    <h1>Acompanhar denúncias</h1>
+    <p>Consulte o andamento das denúncias registradas e veja quais informações serão exibidas pelo sistema.</p>
+  </section>
+
+  <main>
+    <section class="secao">
+      <form class="form-busca" id="formBuscaDemo">
+        <label for="buscaDemo">Buscar denúncia</label>
+        <div class="linha-busca">
+          <input type="text" id="buscaDemo" name="buscaDemo" placeholder="Digite o número, categoria ou local da denúncia">
+          <button class="botao botao-principal" type="submit">Pesquisar</button>
+        </div>
+        <p class="mensagem-form" id="mensagemBusca"></p>
+      </form>
+
+      <div class="lista-denuncias">
+        <article class="denuncia-card">
+          <div class="denuncia-topo">
+            <h2>Denúncia #001</h2>
+            <span>Recebida</span>
+          </div>
+          <p><strong>Categoria:</strong> Queimada</p>
+          <p><strong>Local:</strong> Área próxima ao bairro informado pelo denunciante.</p>
+          <p><strong>Descrição:</strong> Exemplo de registro para demonstrar como o acompanhamento será exibido.</p>
+          <p><strong>Observação:</strong> Para buscar dados reais no banco, use a versão PHP em um servidor local.</p>
+          <a class="botao botao-secundario" href="acompanhar.php">Acompanhar minhas denúncias</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 EcoAlert - Sistema de Denúncias Ambientais</p>
+  </footer>
+
+  <script src="js/acompanhar.js"></script>
+</body>
+</html>

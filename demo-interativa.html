@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoAlert | Sistema de Autenticação - Demo Interativa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c5f2d;
+        }
+
+        .user-info {
+            background: #e8f5e9;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #1b5e20;
+            font-weight: 600;
+        }
+
+        .btn-logout {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .btn-logout:hover {
+            background: #c0392b;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #2c5f2d;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        h2 {
+            color: #2c5f2d;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 22px;
+            border-bottom: 2px solid #2c5f2d;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2c5f2d;
+            box-shadow: 0 0 5px rgba(44, 95, 45, 0.2);
+        }
+
+        button {
+            background: #2c5f2d;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #1f4620;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .secondary {
+            background: #95a5a6;
+            margin-left: 10px;
+        }
+
+        .secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .mensagem {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .sucesso {
+            background: #d4edda;
+            color: #155724;
+            border-color: #28a745;
+        }
+
+        .erro {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-color: #bee5eb;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .tabela-denuncias {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .tabela-denuncias th {
+            background: #2c5f2d;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .tabela-denuncias td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tabela-denuncias tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-recebida {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .status-analise {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .status-encaminhada {
+            background: #f3e5f5;
+            color: #6a1b9a;
+        }
+
+        .status-resolvida {
+            background: #e8f5e9;
+            color: #1b5e20;
+        }
+
+        .card {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 4px solid #2c5f2d;
+        }
+
+        .fluxo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .fluxo-item {
+            background: #f0f8f1;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #2c5f2d;
+            text-align: center;
+        }
+
+        .fluxo-numero {
+            background: #2c5f2d;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 10px;
+        }
+
+        .fluxo-item strong {
+            display: block;
+            margin-top: 10px;
+            color: #2c5f2d;
+        }
+
+        .demo-box {
+            background: #fffacd;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        .seta {
+            text-align: center;
+            color: #2c5f2d;
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">🌿 EcoAlert</div>
+            <div id="userDisplay"></div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Página: Início -->
+        <div id="page-inicio" class="page active">
+            <div class="container">
+                <h1>🔐 Sistema de Autenticação EcoAlert</h1>
+                <p style="margin-bottom: 20px; color: #666; font-size: 16px;">
+                    Bem-vindo! Esta é uma <strong>demonstração interativa</strong> do sistema de autenticação. 
+                    Você pode testar os diferentes fluxos de login e ver como o sistema funciona.
+                </p>
+
+                <div class="demo-box">
+                    <strong>📌 Nota:</strong> Esta é uma simulação no navegador. O sistema real roda com PHP e MySQL.
+                </div>
+
+                <h2>🚀 Começar</h2>
+                <p style="color: #666; margin-bottom: 15px;">Escolha uma opção:</p>
+                <button onclick="goToPage('page-login')">🔑 Fazer Login</button>
+                <button onclick="goToPage('page-registro')" class="secondary">📝 Criar Conta</button>
+                <button onclick="showDemo()" class="secondary">👁️ Ver Demonstração</button>
+
+                <h2>📋 O que você pode fazer</h2>
+                <div class="fluxo">
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">1</div>
+                        <strong>Login de Administrador</strong>
+                        <p style="font-size: 14px; margin-top: 10px;">Acesse o painel com credenciais de admin</p>
+                    </div>
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">2</div>
+                        <strong>Criar Conta Civil</strong>
+                        <p style="font-size: 14px; margin-top: 10px;">Registre um novo usuário civil</p>
+                    </div>
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">3</div>
+                        <strong>Acompanhar Denúncias</strong>
+                        <p style="font-size: 14px; margin-top: 10px;">Visualize suas denúncias registradas</p>
+                    </div>
+                </div>
+
+                <h2>🔑 Credenciais de Teste</h2>
+                <div class="card">
+                    <strong>Administrador:</strong>
+                    <p>📧 Email: <code>admin@ecoalert.com</code></p>
+                    <p>🔐 Senha: <code>admin123</code></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página: Login -->
+        <div id="page-login" class="page">
+            <div class="container">
+                <h1>🔑 Login</h1>
+                <p style="color: #666; margin-bottom: 20px;">Faça o login com suas credenciais</p>
+
+                <div id="mensagemLogin"></div>
+
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="senha">Senha:</label>
+                        <input type="password" id="senha" required>
+                    </div>
+
+                    <button type="submit">Entrar</button>
+                    <button type="button" onclick="goToPage('page-inicio')" class="secondary">Voltar</button>
+                </form>
+
+                <h2 style="margin-top: 40px;">💡 Dica</h2>
+                <div class="card">
+                    <p><strong>Admin:</strong> admin@ecoalert.com / admin123</p>
+                    <p><strong>Ou crie uma conta civil clicando no botão abaixo:</strong></p>
+                    <button onclick="goToPage('page-registro')" class="secondary">Criar Conta</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página: Registro -->
+        <div id="page-registro" class="page">
+            <div class="container">
+                <h1>📝 Criar Conta</h1>
+                <p style="color: #666; margin-bottom: 20px;">Registre-se como usuário civil</p>
+
+                <div id="mensagemRegistro"></div>
+
+                <form onsubmit="handleRegistro(event)">
+                    <div class="form-group">
+                        <label for="nomeRegistro">Nome Completo:</label>
+                        <input type="text" id="nomeRegistro" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailRegistro">Email:</label>
+                        <input type="email" id="emailRegistro" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="senhaRegistro">Senha (mínimo 6 caracteres):</label>
+                        <input type="password" id="senhaRegistro" required minlength="6">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmarSenha">Confirmar Senha:</label>
+                        <input type="password" id="confirmarSenha" required minlength="6">
+                    </div>
+
+                    <button type="submit">Criar Conta</button>
+                    <button type="button" onclick="goToPage('page-login')" class="secondary">Já tem conta? Login</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Página: Painel Admin -->
+        <div id="page-admin" class="page">
+            <div class="container">
+                <h1>🔐 Painel Administrativo</h1>
+                <p style="color: #666; margin-bottom: 20px;">Visualize e gerencie todas as denúncias</p>
+
+                <h2>📊 Resumo</h2>
+                <div class="fluxo">
+                    <div class="fluxo-item">
+                        <div style="font-size: 28px; font-weight: bold; color: #2c5f2d;">42</div>
+                        <strong>Total de Denúncias</strong>
+                    </div>
+                    <div class="fluxo-item">
+                        <div style="font-size: 28px; font-weight: bold; color: #e67e22;">15</div>
+                        <strong>Recebidas</strong>
+                    </div>
+                    <div class="fluxo-item">
+                        <div style="font-size: 28px; font-weight: bold; color: #9b59b6;">8</div>
+                        <strong>Categorias</strong>
+                    </div>
+                </div>
+
+                <h2>🔍 Filtros</h2>
+                <form style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                    <div class="form-group">
+                        <label for="filtroCategoria">Categoria:</label>
+                        <select id="filtroCategoria">
+                            <option>Todas as categorias</option>
+                            <option>Desmatamento</option>
+                            <option>Queimada</option>
+                            <option>Poluição da água</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="filtroStatus">Status:</label>
+                        <select id="filtroStatus">
+                            <option>Todos os status</option>
+                            <option>Recebida</option>
+                            <option>Em análise</option>
+                            <option>Encaminhada</option>
+                            <option>Resolvida</option>
+                        </select>
+                    </div>
+                </form>
+
+                <button onclick="alert('Filtro aplicado!')">Filtrar Denúncias</button>
+
+                <h2>📋 Denúncias Recentes</h2>
+                <table class="tabela-denuncias">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Denunciante</th>
+                            <th>Categoria</th>
+                            <th>Local</th>
+                            <th>Status</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#001</td>
+                            <td>João Silva</td>
+                            <td>Desmatamento</td>
+                            <td>Área rural - São Paulo</td>
+                            <td><span class="status status-recebida">Recebida</span></td>
+                            <td>09/06/2026</td>
+                        </tr>
+                        <tr>
+                            <td>#002</td>
+                            <td>Maria Santos</td>
+                            <td>Queimada</td>
+                            <td>Zona rural - Minas Gerais</td>
+                            <td><span class="status status-analise">Em análise</span></td>
+                            <td>08/06/2026</td>
+                        </tr>
+                        <tr>
+                            <td>#003</td>
+                            <td>Pedro Costa</td>
+                            <td>Poluição da água</td>
+                            <td>Rio próximo a industrial</td>
+                            <td><span class="status status-encaminhada">Encaminhada</span></td>
+                            <td>07/06/2026</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br>
+                <button onclick="logout()">Sair</button>
+            </div>
+        </div>
+
+        <!-- Página: Acompanhar (Civil) -->
+        <div id="page-acompanhar" class="page">
+            <div class="container">
+                <h1>📊 Acompanhar Denúncias</h1>
+                <p style="color: #666; margin-bottom: 20px;">Visualize o status das suas denúncias registradas</p>
+
+                <h2>🔍 Buscar Denúncia</h2>
+                <form style="margin-bottom: 30px;">
+                    <div class="form-group">
+                        <label for="buscaDenuncia">Número da denúncia ou palavra-chave:</label>
+                        <input type="text" id="buscaDenuncia" placeholder="Digite o número ou informação">
+                    </div>
+                    <button type="button" onclick="alert('Pesquisa realizada!')">Pesquisar</button>
+                </form>
+
+                <h2>📋 Suas Denúncias</h2>
+                <table class="tabela-denuncias">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Categoria</th>
+                            <th>Local</th>
+                            <th>Status</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#042</td>
+                            <td>Descarte irregular de lixo</td>
+                            <td>Rua das Flores - Centro</td>
+                            <td><span class="status status-resolvida">Resolvida</span></td>
+                            <td>15/05/2026</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br>
+                <button onclick="logout()">Sair</button>
+            </div>
+        </div>
+
+        <!-- Página: Demonstração -->
+        <div id="page-demo" class="page">
+            <div class="container">
+                <h1>👁️ Demonstração do Fluxo</h1>
+
+                <h2>1️⃣ Novo Usuário Civil</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">1</div>
+                        <strong>Acessar register.php</strong>
+                    </div>
+                    <div class="seta">→</div>
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">2</div>
+                        <strong>Preencher formulário</strong>
+                    </div>
+                    <div class="seta">→</div>
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">3</div>
+                        <strong>Validação</strong>
+                    </div>
+                    <div class="seta">→</div>
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">4</div>
+                        <strong>Conta Criada!</strong>
+                    </div>
+                </div>
+
+                <h2>2️⃣ Login como Administrador</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">1</div>
+                        <strong>Acessar login.php</strong>
+                    </div>
+                    <div class="seta">→</div>
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">2</div>
+                        <strong>Email + Senha Admin</strong>
+                    </div>
+                    <div class="seta">→</div>
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">3</div>
+                        <strong>Verificação de tipo</strong>
+                    </div>
+                    <div class="seta">→</div>
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">4</div>
+                        <strong>admin.php</strong>
+                    </div>
+                </div>
+
+                <h2>3️⃣ Login como Civil</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">1</div>
+                        <strong>Acessar login.php</strong>
+                    </div>
+                    <div class="seta">→</div>
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">2</div>
+                        <strong>Email + Senha Civil</strong>
+                    </div>
+                    <div class="seta">→</div>
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">3</div>
+                        <strong>Verificação de tipo</strong>
+                    </div>
+                    <div class="seta">→</div>
+                    <div class="fluxo-item">
+                        <div class="fluxo-numero">4</div>
+                        <strong>acompanhar.php</strong>
+                    </div>
+                </div>
+
+                <h2>🔒 Proteção de Páginas</h2>
+                <div class="card">
+                    <p>✅ <strong>Automático:</strong> Tentar acessar uma página protegida sem login redireciona para login.php</p>
+                    <p>✅ <strong>Segurança:</strong> Senhas criptografadas com bcrypt</p>
+                    <p>✅ <strong>Sessões:</strong> Dados seguros na sessão PHP</p>
+                    <p>✅ <strong>Validação:</strong> Email único e requisitos de senha</p>
+                </div>
+
+                <br>
+                <button onclick="goToPage('page-inicio')">Voltar ao Início</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 EcoAlert - Sistema de Denúncias Ambientais</p>
+        <p style="margin-top: 10px; font-size: 14px; opacity: 0.8;">Demonstração Interativa ✅</p>
+    </footer>
+
+    <script>
+        // Usuários simulados
+        const usuarios = {
+            'admin@ecoalert.com': { nome: 'Administrador', senha: 'admin123', tipo: 'admin' },
+            'joao@example.com': { nome: 'João Silva', senha: '123456', tipo: 'civil' }
+        };
+
+        let usuarioLogado = null;
+
+        function goToPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            const mensagem = document.getElementById('mensagemLogin');
+
+            if (usuarios[email] && usuarios[email].senha === senha) {
+                usuarioLogado = { email, ...usuarios[email] };
+                updateUserDisplay();
+                
+                mensagem.innerHTML = `<div class="mensagem sucesso">✅ Login realizado com sucesso!</div>`;
+                
+                setTimeout(() => {
+                    if (usuarioLogado.tipo === 'admin') {
+                        goToPage('page-admin');
+                    } else {
+                        goToPage('page-acompanhar');
+                    }
+                }, 1000);
+            } else {
+                mensagem.innerHTML = `<div class="mensagem erro">❌ Email ou senha incorretos.</div>`;
+            }
+        }
+
+        function handleRegistro(event) {
+            event.preventDefault();
+            const nome = document.getElementById('nomeRegistro').value;
+            const email = document.getElementById('emailRegistro').value;
+            const senha = document.getElementById('senhaRegistro').value;
+            const confirmar = document.getElementById('confirmarSenha').value;
+            const mensagem = document.getElementById('mensagemRegistro');
+
+            if (usuarios[email]) {
+                mensagem.innerHTML = `<div class="mensagem erro">❌ Este email já está cadastrado.</div>`;
+                return;
+            }
+
+            if (senha !== confirmar) {
+                mensagem.innerHTML = `<div class="mensagem erro">❌ As senhas não coincidem.</div>`;
+                return;
+            }
+
+            if (senha.length < 6) {
+                mensagem.innerHTML = `<div class="mensagem erro">❌ Senha deve ter no mínimo 6 caracteres.</div>`;
+                return;
+            }
+
+            usuarios[email] = { nome, senha, tipo: 'civil' };
+            mensagem.innerHTML = `<div class="mensagem sucesso">✅ Conta criada com sucesso! Redirecionando para login...</div>`;
+
+            setTimeout(() => {
+                document.getElementById('email').value = email;
+                document.getElementById('senha').value = '';
+                goToPage('page-login');
+            }, 2000);
+        }
+
+        function updateUserDisplay() {
+            const display = document.getElementById('userDisplay');
+            if (usuarioLogado) {
+                display.innerHTML = `
+                    <div class="user-info">
+                        👤 ${usuarioLogado.nome} 
+                        ${usuarioLogado.tipo === 'admin' ? '(Admin)' : '(Civil)'}
+                        <button class="btn-logout" onclick="logout()">Sair</button>
+                    </div>
+                `;
+            } else {
+                display.innerHTML = '';
+            }
+        }
+
+        function logout() {
+            usuarioLogado = null;
+            updateUserDisplay();
+            goToPage('page-inicio');
+        }
+
+        function showDemo() {
+            goToPage('page-demo');
+        }
+
+        updateUserDisplay();
+    </script>
+</body>
+</html>

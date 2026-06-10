@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoAlert | Contato</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <a class="logo" href="index.html">EcoAlert</a>
+
+    <nav class="menu" aria-label="Menu principal">
+      <a href="index.html">Início</a>
+      <a href="index.html#denuncia">Fazer denúncia</a>
+      <a href="acompanhar.html">Acompanhar denúncia</a>
+      <a href="orientacoes.html">Orientações</a>
+      <a href="contato.html">Contato</a>
+    </nav>
+  </header>
+
+  <section class="pagina-hero">
+    <p class="etiqueta">Contato</p>
+    <h1>Fale com o EcoAlert</h1>
+    <p>Use esta página para solicitar suporte, tirar dúvidas sobre denúncias ou encontrar canais de atendimento.</p>
+  </section>
+
+  <main>
+    <section class="secao contato-layout">
+      <form class="formulario" id="formContato">
+        <label for="nomeContato">Nome</label>
+        <input type="text" id="nomeContato" name="nomeContato" placeholder="Digite seu nome" required>
+
+        <label for="emailContato">E-mail</label>
+        <input type="email" id="emailContato" name="emailContato" placeholder="exemplo@email.com" required>
+
+        <label for="assunto">Assunto</label>
+        <select id="assunto" name="assunto" required>
+          <option value="">Selecione o assunto</option>
+          <option value="Dúvida sobre denúncia">Dúvida sobre denúncia</option>
+          <option value="Problema no sistema">Problema no sistema</option>
+          <option value="Atualização de denúncia">Atualização de denúncia</option>
+          <option value="Outro assunto">Outro assunto</option>
+        </select>
+
+        <label for="mensagem">Mensagem</label>
+        <textarea id="mensagem" name="mensagem" rows="6" placeholder="Digite sua mensagem" required></textarea>
+
+        <button class="botao botao-principal" type="submit">Enviar mensagem</button>
+        <p class="mensagem-form" id="mensagemContato"></p>
+      </form>
+
+      <aside class="painel contato-painel">
+        <h2>Canais de apoio</h2>
+        <p><strong>E-mail:</strong> suporte@ecoalert.local</p>
+        <p><strong>Atendimento:</strong> segunda a sexta, das 8h às 17h</p>
+        <p><strong>Emergência ambiental:</strong> procure imediatamente os órgãos oficiais da sua cidade.</p>
+        <p>O EcoAlert organiza informações para facilitar o registro e acompanhamento das denúncias ambientais.</p>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 EcoAlert - Sistema de Denúncias Ambientais</p>
+  </footer>
+
+  <script src="js/contato.js"></script>
+</body>
+</html>
